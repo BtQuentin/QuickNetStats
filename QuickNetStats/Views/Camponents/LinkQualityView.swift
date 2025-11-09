@@ -6,13 +6,69 @@
 //
 
 import SwiftUI
+import Network
 
 struct LinkQualityView: View {
+    
+    let linkQuality:LinkQuality
+    let linkQualityColor:Color
+    
+    var linkQualityNumber:Int {
+        switch linkQuality {
+        case .minimal:
+            return 1
+        case .moderate:
+            return 2
+        case .good:
+            return 3
+        default:
+            return 0
+        }
+    }
+        
+    let circleDim:CGFloat = 25
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 5){
+            
+            ZStack(alignment: .leading) {
+                HStack{
+                    ForEach(0..<3, id: \.self) { _ in
+                        Circle()
+                            .frame(width: circleDim, height: circleDim)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                HStack{
+                    ForEach(0..<linkQualityNumber, id: \.self) { _ in
+                        Circle()
+                            .frame(width: circleDim, height: circleDim)
+                            .foregroundStyle(linkQualityColor)
+                    }
+                }
+            }
+            .padding(.bottom, 5)
+            
+            Text("Link Quality")
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
+            
+            Text(linkQuality.rawValue.capitalized)
+                .foregroundStyle(linkQualityColor)
+            
+        }
+        .frame(width: 80, height: 80)
     }
 }
 
 #Preview {
-    LinkQualityView()
+    
+    HStack(spacing: 40) {
+        LinkQualityView(linkQuality: .good, linkQualityColor: .green)
+        LinkQualityView(linkQuality: .moderate, linkQualityColor: .orange)
+        LinkQualityView(linkQuality: .minimal, linkQualityColor: .red)
+        LinkQualityView(linkQuality: .unknown, linkQualityColor: .secondary)
+
+    }
+    .padding()
 }

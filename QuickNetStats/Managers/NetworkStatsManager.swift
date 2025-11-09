@@ -23,13 +23,18 @@ class NetworkStatsManager:ObservableObject {
         self.monitor = NWPathMonitor()
         self.queue = DispatchQueue(label: "com.quickconncheck.networkMonitor")
         self.netStats = NetworkStats.defaultOffline
-        startMonitoring()
+    }
+    
+    init(netStats:NetworkStats) {
+        self.netStats = netStats
+        self.monitor = NWPathMonitor()
+        self.queue = DispatchQueue(label: "com.quickconncheck.networkMonitor")
     }
     
     /**
      * Starts monitoring network path changes.
      */
-    private func startMonitoring() {
+    func startMonitoring() {
         
         monitor.pathUpdateHandler = { [weak self] path in
             
@@ -48,6 +53,11 @@ class NetworkStatsManager:ObservableObject {
      */
     private func stopMonitoring() {
         monitor.cancel()
+    }
+    
+    func refresh() {
+        stopMonitoring()
+        startMonitoring()
     }
     
     deinit {

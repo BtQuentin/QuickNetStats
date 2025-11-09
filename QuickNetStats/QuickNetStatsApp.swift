@@ -10,8 +10,14 @@ import SwiftUI
 @main
 struct QuickNetStatsApp: App {
     var body: some Scene {
-        WindowGroup {
+        MenuBarExtra(content: {
             ContentView()
-        }
+            .padding()
+            .frame(width: 550)
+
+        }, label: {
+            Label("Quick Net Stas", systemImage: "network")
+        })
+        .menuBarExtraStyle(.window)
     }
 }

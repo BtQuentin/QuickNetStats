@@ -8,11 +8,59 @@
 import SwiftUI
 
 struct NetworkInterfaceView: View {
+    
+    let netIntervaceType:NetworkInterfaceType
+    let isAvailable:Bool
+    let linkQualityColor:Color
+    
+    @State var appear:Bool = true
+    
+    var symbolName: String {
+        switch (netIntervaceType) {
+        case .ethernet:
+             return "cable.coaxial"
+        case .wifi:
+            return "wifi"
+        case .cellular:
+            return "personalhotspot"
+        default:
+            return "network"
+        }
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Image(systemName: symbolName)
+            .symbolRenderingMode(.hierarchical)
+            .resizable()
+            .scaledToFit()
+            .frame(height: 80)
+            .foregroundStyle(isAvailable ? .green : .gray)
+            .symbolEffect(.bounce, options: .speed(1.5) .nonRepeating, value: appear)
+            .onAppear {
+                self.appear = !self.appear
+            }
     }
 }
 
 #Preview {
-    NetworkInterfaceView()
+    VStack (spacing: 100){
+        HStack(spacing: 100) {
+            NetworkInterfaceView(netIntervaceType: .wifi, isAvailable: true, linkQualityColor: .green)
+            NetworkInterfaceView(netIntervaceType: .wifi, isAvailable: false, linkQualityColor: .secondary)
+        }
+        HStack(spacing: 100) {
+            NetworkInterfaceView(netIntervaceType: .ethernet, isAvailable: true, linkQualityColor: .green)
+            NetworkInterfaceView(netIntervaceType: .ethernet, isAvailable: false, linkQualityColor: .secondary)
+        }
+        HStack(spacing: 100) {
+            NetworkInterfaceView(netIntervaceType: .cellular, isAvailable: true, linkQualityColor: .green)
+            NetworkInterfaceView(netIntervaceType: .cellular, isAvailable: false, linkQualityColor: .secondary)
+        }
+        HStack(spacing: 100) {
+            NetworkInterfaceView(netIntervaceType: .other, isAvailable: true, linkQualityColor: .green)
+            NetworkInterfaceView(netIntervaceType: .other, isAvailable: false, linkQualityColor: .secondary)
+        }
+
+    }
+    .padding()
 }

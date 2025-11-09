@@ -13,26 +13,26 @@ struct FooterButtonLabelView: View {
     let systemName:String
     
     var body: some View {
-        Button {
-            
-        } label: {
-            Label {
-                Text(labelText)
-                    .font(.system(size: 14, weight: .semibold))
-            } icon: {
-                Image(systemName: systemName)
-                    .font(.system(size: 14, weight: .bold))
-            }
+        Label {
+            Text(labelText)
+                .font(.system(size: 14, weight: .semibold))
+        } icon: {
+            Image(systemName: systemName)
+                .font(.system(size: 14, weight: .bold))
         }
-        .buttonStyle(.plain)
-        .padding(.horizontal)
     }
 }
 
 #Preview {
-    
-    var selected = false
-    
-    FooterButtonLabelView(labelText: "Quit", systemName: "power")
-    FooterButtonLabelView(labelText: "Quit", systemName: "power")
+    HStack {
+        FooterButtonLabelView(labelText: "Quit", systemName: "power")
+            .padding(.horizontal)
+        
+        FooterButtonLabelView(labelText: "Refresh", systemName: "arrow.trianglehead.counterclockwise")
+            .padding(.horizontal)
+
+        FooterButtonLabelView(labelText: "Settings", systemName: "gear")
+            .padding(.horizontal)
+    }
+    .padding()
 }

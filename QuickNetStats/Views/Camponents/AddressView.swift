@@ -8,11 +8,45 @@
 import SwiftUI
 
 struct AddressView: View {
+    
+    let title:String
+    let value:String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        RoundedRectangle(cornerRadius: 16)
+            .fill(
+                Material.thick
+            )
+            .overlay(
+                HStack(spacing: 2){
+                    Text(title + ": ")
+                        .foregroundStyle(.secondary)
+                    Text(value)
+                        .fontWeight(.semibold)
+                }
+                    .font(.title3)
+            )
+        .frame(width: 250, height: 50)
     }
 }
 
 #Preview {
-    AddressView()
+    VStack(spacing: 100) {
+        HStack {
+            AddressView(title: "Private IP", value: "10.0.0.32")
+            AddressView(title: "Public IP", value: "100.34.21.56")
+        }
+        
+        HStack {
+            AddressView(title: "Private IP", value: "999.999.999.999")
+            AddressView(title: "Public IP", value: "999.999.999.999")
+        }
+        
+        HStack {
+            AddressView(title: "Private IP", value: "Unavailbable")
+            AddressView(title: "Public IP", value: "Unavailbable")
+        }
+
+    }
 }
