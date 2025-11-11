@@ -42,7 +42,7 @@ struct NetworkStats {
     let unsatisfiedReason: NWPath.UnsatisfiedReason?
     
     /// Returns the qualirty of the connection
-    let linkQuality:LinkQuality
+    var linkQuality:LinkQuality?
     
     // MARK: - Computed Properties
     
@@ -83,16 +83,20 @@ struct NetworkStats {
             self.interfaceType = .none // Not connected
         }
         
-        switch path.linkQuality {
-        case .minimal:
-            self.linkQuality = .minimal
-        case .moderate:
-            self.linkQuality = .moderate
-        case .good:
-            self.linkQuality = .good
-        default:
-            self.linkQuality = .unknown
+        
+        if #available(macOS 26, *) {
+            switch path.linkQuality {
+            case .minimal:
+                self.linkQuality = .minimal
+            case .moderate:
+                self.linkQuality = .moderate
+            case .good:
+                self.linkQuality = .good
+            default:
+                self.linkQuality = .unknown
+            }
         }
+        
     }
     
     private init(status: NWPath.Status,

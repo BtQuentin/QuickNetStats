@@ -29,12 +29,20 @@ struct NetworkInterfaceView: View {
     }
     
     var body: some View {
+        if #available(macOS 14.0, *) {
+            imageSection
+                .symbolEffect(.bounce, options: .speed(1.5) .nonRepeating, value: appear)
+        } else {
+            imageSection
+        }
+    }
+    
+    var imageSection:some View {
         Image(systemName: symbolName)
             .symbolRenderingMode(.hierarchical)
             .resizable()
             .scaledToFit()
             .foregroundStyle(isAvailable ? .green : .gray)
-            .symbolEffect(.bounce, options: .speed(1.5) .nonRepeating, value: appear)
             .onAppear {
                 self.appear = !self.appear
             }

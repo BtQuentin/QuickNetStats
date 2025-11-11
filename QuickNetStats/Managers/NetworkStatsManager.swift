@@ -98,7 +98,9 @@ import Playgrounds
             print("eth?: \(path.usesInterfaceType(.wiredEthernet))")
             print("constrained?: \(path.isConstrained)")
             print("expansive?: \(path.isExpensive)")
-            print("quality: \(path.linkQuality)")
+            if #available(macOS 26, *) {
+                print("quality: \(path.linkQuality)")
+            }
         }
     }
     

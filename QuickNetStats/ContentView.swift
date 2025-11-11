@@ -37,11 +37,13 @@ struct ContentView: View {
                     linkQualityColor: linkQualityColor
                 )
                 .frame(height: 80)
-
-                LinkQualityView(
-                    linkQuality: netStats.linkQuality,
-                    linkQualityColor: linkQualityColor
-                )
+                
+                if let linkQuality = netStats.linkQuality {
+                    LinkQualityView(
+                        linkQuality: linkQuality,
+                        linkQualityColor: linkQualityColor
+                    )
+                }
             }
             
             ipButtonsSection
