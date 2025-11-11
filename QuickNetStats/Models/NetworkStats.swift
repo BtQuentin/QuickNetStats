@@ -150,6 +150,28 @@ struct NetworkStats {
         )
     }
     
+    static var mockBadWifiCoonection: NetworkStats {
+        return NetworkStats(
+            status: .satisfied,
+            interfaceType: .wifi,
+            isExpensive: false,
+            isConstrained: false,
+            reason: .none,
+            linkQuality: .minimal
+        )
+    }
+    
+    static var mockGoodEthCoonection: NetworkStats {
+        return NetworkStats(
+            status: .satisfied,
+            interfaceType: .ethernet,
+            isExpensive: false,
+            isConstrained: false,
+            reason: .none,
+            linkQuality: .good
+        )
+    }
+    
     static var mockConstrainedWifiCoonection: NetworkStats {
         return NetworkStats(
             status: .satisfied,

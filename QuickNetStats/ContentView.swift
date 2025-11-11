@@ -10,11 +10,12 @@ import AppKit
 
 struct ContentView: View {
     
-    @StateObject var netStats:NetworkStatsManager = NetworkStatsManager()
-    @StateObject var netDetails:NetworkDetailsManager = NetworkDetailsManager()
+    var netStats:NetworkStats
+    var privateIP:String?
+    var publicIP:String?
     
     var linkQualityColor: Color {
-        switch netStats.netStats.linkQuality {
+        switch netStats.linkQuality {
         case .good:
             return Color.green
         case .moderate:
@@ -31,12 +32,12 @@ struct ContentView: View {
         VStack(spacing: 16) {
             HStack (alignment: .center, spacing: 40){
                 NetworkInterfaceView(
-                    netIntervaceType: netStats.netStats.interfaceType,
-                    isAvailable: netStats.netStats.isConnected,
+                    netIntervaceType: netStats.interfaceType,
+                    isAvailable: netStats.isConnected,
                     linkQualityColor: linkQualityColor
                 )
                 LinkQualityView(
-                    linkQuality: netStats.netStats.linkQuality,
+                    linkQuality: netStats.linkQuality,
                     linkQualityColor: linkQualityColor
                 )
             }
@@ -44,82 +45,46 @@ struct ContentView: View {
             ipButtonsSection
 
             exceptionDescriptionSection
-            
-            Divider()
-            
-            footerButtonsSection
-            
+                        
         }
         .padding()
-        .task {
-            netStats.startMonitoring()
-            await netDetails.getAddresses()
-        }
     }
     
     var exceptionDescriptionSection: some View {
         return Group {
-            if netStats.netStats.isExpensive || netStats.netStats.isConstrained {
+            if netStats.isExpensive || netStats.isConstrained {
                 Divider()
                 
-                if netStats.netStats.isExpensive {
+                if netStats.isExpensive {
                     Text("You are connected to a cellular connection which may have a network cap")
                         .foregroundStyle(.secondary)
                 }
                 
-                if netStats.netStats.isConstrained {
+                if netStats.isConstrained {
                     Text("Low Data Mode is anabled for this network")
                         .foregroundStyle(.secondary)
                 }
             }
         }
     }
-    
-    var footerButtonsSection: some View {
-        return HStack(spacing: 40) {
-            Button {
-                exit(0)
-            } label: {
-                FooterButtonLabelView(labelText: "Quit", systemName: "power")
-            }
-            
-            Button {
-                Task {
-                    netStats.refresh()
-                    await netDetails.getAddresses()
-                }
-            } label: {
-                FooterButtonLabelView(labelText: "Refresh", systemName: "arrow.trianglehead.counterclockwise")
-            }
-            
-            Button {
-                
-            } label: {
-                FooterButtonLabelView(labelText: "Settings", systemName: "gear")
-            }
-
-        }
-        .buttonStyle(.plain)
-
-    }
-    
+        
     var ipButtonsSection: some View {
         HStack(spacing: 16) {
             Button {
-                if let publicIP = netDetails.publicIP {
+                if let publicIP = publicIP {
                     copyToClipboard(publicIP)
                 }
             } label: {
-                AddressView(title: "Public IP", value: netDetails.publicIP ?? "Unavailbable")
+                AddressView(title: "Public IP", value: publicIP ?? "Unavailbable")
             }
             .help("Click to copy to Clipboard")
             
             Button {
-                if let privateIP = netDetails.privateIP {
+                if let privateIP = privateIP {
                     copyToClipboard(privateIP)
                 }
             } label: {
-                AddressView(title: "Private IP", value: netDetails.privateIP ?? "Unavailbable")
+                AddressView(title: "Private IP", value: privateIP ?? "Unavailbable")
             }
             .help("Click to copy to Clipboard")
         }
@@ -133,52 +98,73 @@ func copyToClipboard(_ str :String) {
     pasteboard.setString(str, forType: .string)
 }
 
-#Preview {
-    ContentView()
+#Preview("Good Connection") {
+    ContentView(
+        netStats: NetworkStats.mockGoodWifiCoonection,
+        privateIP: "10.0.0.32",
+        publicIP: "100.10.30.2"
+    )
+        .padding()
+        .frame(width: 550)
 }
 
-//#Preview("Good Connection") {
-//    ContentView(
-//        netStats: NetworkStatsManager(netStats: NetworkStats.mockGoodWifiCoonection),
-//        netDetails: NetworkDetailsManager(privateIP: "10.0.0.32", publicIP: "100.10.30.2")
-//    )
-//        .padding()
-//        .frame(width: 550)
-//}
-//
-//#Preview("Moderate Connection") {
-//    ContentView(
-//        netStats: NetworkStatsManager(netStats: NetworkStats.mockModerateWifiCoonection),
-//        netDetails: NetworkDetailsManager(privateIP: "10.0.0.32", publicIP: "100.10.30.2")
-//    )
-//    .padding()
-//    .frame(width: 550)
-//}
-//
-//#Preview("Constrained") {
-//    ContentView(
-//        netStats: NetworkStatsManager(netStats: NetworkStats.mockConstrainedWifiCoonection),
-//        netDetails: NetworkDetailsManager(privateIP: "10.0.0.32", publicIP: "100.10.30.2")
-//    )
-//    .padding()
-//    .frame(width: 550)
-//}
-//
-//#Preview("Constriied + Expansive") {
-//    ContentView(
-//        netStats: NetworkStatsManager(netStats: NetworkStats.mockConstrainedAndExpansiveWifiCoonection),
-//        netDetails: NetworkDetailsManager(privateIP: "10.0.0.32", publicIP: "100.10.30.2")
-//    )
-//    .padding()
-//    .frame(width: 550)
-//}
-//
-//
-//#Preview("Disconnected") {
-//    ContentView(
-//        netStats: NetworkStatsManager(netStats: NetworkStats.mockDisconnected),
-//        netDetails: NetworkDetailsManager()
-//    )
-//    .padding()
-//    .frame(width: 550)
-//}
+#Preview("Moderate Connection") {
+    ContentView(
+        netStats: NetworkStats.mockModerateWifiCoonection,
+        privateIP: "10.0.0.32",
+        publicIP: "100.10.30.2"
+    )
+    .padding()
+    .frame(width: 550)
+}
+
+#Preview("Bad Connection") {
+    ContentView(
+        netStats: NetworkStats.mockBadWifiCoonection,
+        privateIP: "10.0.0.32",
+        publicIP: "100.10.30.2"
+    )
+    .padding()
+    .frame(width: 550)
+}
+
+#Preview("Good Eth Connection") {
+    ContentView(
+        netStats: NetworkStats.mockGoodEthCoonection,
+        privateIP: "10.0.0.32",
+        publicIP: "100.10.30.2"
+    )
+    .padding()
+    .frame(width: 550)
+}
+
+#Preview("Constrained") {
+    ContentView(
+        netStats: NetworkStats.mockConstrainedWifiCoonection,
+        privateIP: "10.0.0.32",
+        publicIP: "100.10.30.2"
+    )
+    .padding()
+    .frame(width: 550)
+}
+
+#Preview("Constriied + Expansive") {
+    ContentView(
+        netStats: NetworkStats.mockConstrainedAndExpansiveWifiCoonection,
+        privateIP: "10.0.0.32",
+        publicIP: "100.10.30.2"
+    )
+    .padding()
+    .frame(width: 550)
+}
+
+
+#Preview("Disconnected") {
+    ContentView(
+        netStats: NetworkStats.mockDisconnected,
+        privateIP: nil,
+        publicIP: nil
+    )
+    .padding()
+    .frame(width: 550)
+}
