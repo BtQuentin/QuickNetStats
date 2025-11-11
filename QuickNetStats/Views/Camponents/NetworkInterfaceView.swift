@@ -33,7 +33,6 @@ struct NetworkInterfaceView: View {
             .symbolRenderingMode(.hierarchical)
             .resizable()
             .scaledToFit()
-            .frame(height: 80)
             .foregroundStyle(isAvailable ? .green : .gray)
             .symbolEffect(.bounce, options: .speed(1.5) .nonRepeating, value: appear)
             .onAppear {
@@ -46,19 +45,34 @@ struct NetworkInterfaceView: View {
     VStack (spacing: 100){
         HStack(spacing: 100) {
             NetworkInterfaceView(netIntervaceType: .wifi, isAvailable: true, linkQualityColor: .green)
+                .frame(height: 80)
+
             NetworkInterfaceView(netIntervaceType: .wifi, isAvailable: false, linkQualityColor: .secondary)
+                .frame(height: 80)
+
         }
         HStack(spacing: 100) {
             NetworkInterfaceView(netIntervaceType: .ethernet, isAvailable: true, linkQualityColor: .green)
+                .frame(height: 80)
+
             NetworkInterfaceView(netIntervaceType: .ethernet, isAvailable: false, linkQualityColor: .secondary)
+                .frame(height: 80)
+
         }
         HStack(spacing: 100) {
             NetworkInterfaceView(netIntervaceType: .cellular, isAvailable: true, linkQualityColor: .green)
+                .frame(height: 80)
+
             NetworkInterfaceView(netIntervaceType: .cellular, isAvailable: false, linkQualityColor: .secondary)
+                .frame(height: 80)
+
         }
         HStack(spacing: 100) {
             NetworkInterfaceView(netIntervaceType: .other, isAvailable: true, linkQualityColor: .green)
+                .frame(height: 80)
+
             NetworkInterfaceView(netIntervaceType: .other, isAvailable: false, linkQualityColor: .secondary)
+                .frame(height: 80)
         }
 
     }

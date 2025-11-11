@@ -14,7 +14,7 @@ struct QuickNetStatsApp: App {
     @StateObject var netDetailsManager:NetworkDetailsManager = NetworkDetailsManager()
     
     var body: some Scene {
-        MenuBarExtra(content: {
+        MenuBarExtra( content: {
             VStack(spacing: 16){
                 ContentView(
                     netStats: netStatsManager.netStats,
@@ -31,11 +31,12 @@ struct QuickNetStatsApp: App {
             }
 
         }, label: {
-            HStack(alignment: .center) {
+            Group {
                 Text(netStatsManager.netStats.isConnected ? "Connected" : "Disconnected")
-                Label("Quick Net Stas", systemImage: "network")
+                NetworkInterfaceView(netIntervaceType: netStatsManager.netStats.interfaceType, isAvailable: netStatsManager.netStats.isConnected, linkQualityColor: .green)
             }
-        })
+        }
+        )
         .menuBarExtraStyle(.window)
     }
     

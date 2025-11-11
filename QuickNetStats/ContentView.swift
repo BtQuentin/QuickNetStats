@@ -36,6 +36,8 @@ struct ContentView: View {
                     isAvailable: netStats.isConnected,
                     linkQualityColor: linkQualityColor
                 )
+                .frame(height: 80)
+
                 LinkQualityView(
                     linkQuality: netStats.linkQuality,
                     linkQualityColor: linkQualityColor
