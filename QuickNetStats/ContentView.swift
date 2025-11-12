@@ -93,6 +93,7 @@ struct ContentView: View {
             .help("Click to copy to Clipboard")
         }
         .buttonStyle(.plain)
+        .focusable(false)
     }
 }
 

@@ -80,6 +80,7 @@ struct QuickNetStatsApp: App {
 
         }
         .buttonStyle(.plain)
+        .focusable(false)
 
     }
 

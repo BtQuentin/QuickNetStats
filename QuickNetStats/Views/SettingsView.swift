@@ -35,15 +35,15 @@ struct SettingsView: View {
             Divider()
             
             HStack{
-                Text("Show Summary in Menu Bar")
+                Text("Show Network Summary in the Menu Bar")
                     .fontWeight(.semibold)
                 
                 Spacer()
                 
                 Toggle(isOn: $showSummary) {}
-                .toggleStyle(.switch)
+                    .toggleStyle(.switch)
             }
-            .frame(width: 300)
+            .frame(width: 350)
             
             Divider()
         }
@@ -69,6 +69,7 @@ struct SettingsView: View {
                 .padding()
         }
         .buttonStyle(.plain)
+        .focusable(false)
     }
     
 }
