@@ -9,6 +9,7 @@ import SwiftUI
 
 enum UserDefaultsKeys {
     static let showSummary = "showSummary"
+    static let useAnimations = "useAnimations"
 }
 
 struct SettingsView: View {
@@ -18,19 +19,18 @@ struct SettingsView: View {
     @AppStorage(UserDefaultsKeys.showSummary)
     private var showSummary: Bool = true
     
+    @AppStorage(UserDefaultsKeys.useAnimations)
+    private var useAnimations: Bool = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+    
     init(isSettingViewOpened: Binding<Bool>) {
         _vm = .init(wrappedValue: SettingsViewModel(isSettingViewOpened: isSettingViewOpened))
     }
     
     var body: some View {
 
-        VStack(spacing: 20) {
-            HStack {
-                Text("Settings")
-                    .font(.largeTitle)
-
-                Spacer()
-            }
+        VStack(spacing: 20)
+        {
+            headerSection
             
             Divider()
             
@@ -45,6 +45,17 @@ struct SettingsView: View {
             }
             .frame(width: 350)
             
+            HStack{
+                Text("Display Animations")
+                    .fontWeight(.semibold)
+                
+                Spacer()
+                
+                Toggle(isOn: $useAnimations) {}
+                    .toggleStyle(.switch)
+            }
+            .frame(width: 350)
+            
             Divider()
         }
         .padding()
@@ -55,6 +66,13 @@ struct SettingsView: View {
             xCrossButton
         }
         
+    }
+    
+    private let headerSection: HStack<TupleView<(Text, Spacer)>> = HStack {
+        Text("Settings")
+            .font(.largeTitle)
+        
+        Spacer()
     }
     
     private var xCrossButton: some View {

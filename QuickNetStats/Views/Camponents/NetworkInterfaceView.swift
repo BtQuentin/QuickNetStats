@@ -15,6 +15,9 @@ struct NetworkInterfaceView: View {
     
     @State var appear:Bool = true
     
+    @AppStorage(UserDefaultsKeys.useAnimations)
+    private var useAnimations: Bool = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+    
     var symbolName: String {
         switch (netIntervaceType) {
         case .ethernet:
@@ -29,7 +32,7 @@ struct NetworkInterfaceView: View {
     }
     
     var body: some View {
-        if #available(macOS 14.0, *) {
+        if #available(macOS 14.0, *), useAnimations {
             imageSection
                 .symbolEffect(.bounce, options: .speed(1.5) .nonRepeating, value: appear)
         } else {
