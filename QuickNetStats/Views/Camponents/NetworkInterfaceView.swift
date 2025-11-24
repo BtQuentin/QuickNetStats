@@ -50,7 +50,7 @@ struct NetworkInterfaceView: View {
                 Image(systemName: symbolName)
                     .resizable()
                     .foregroundStyle(.gray)
-                    .modifier(VerticalShimmerEffect())
+                    .modifier(ShimmerEffect(direction: .vertical, offset: 200))
             }
         }
         .symbolRenderingMode(.hierarchical)

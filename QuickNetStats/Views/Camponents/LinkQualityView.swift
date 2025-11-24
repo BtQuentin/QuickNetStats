@@ -59,7 +59,7 @@ struct LinkQualityView: View {
                 } else {
                     Text("Computing...")
                         .foregroundStyle(linkQualityColor)
-                        .modifier(HorizontalShimmerEffect())
+                        .modifier(ShimmerEffect(direction: .horizontal))
                 }
             }
             .foregroundStyle(linkQualityColor)
