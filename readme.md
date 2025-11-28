@@ -8,7 +8,11 @@ Essential network statistics directly in the Menu Bar
 
 ## 🤨 Why?
 MacOS is **slow** at realizing you are not connected anymore to the internet and buries the IP information in the settings page.
-QuickNetStats reacts **immediately** when the connections is established or lost, displays an estimate of the link quality without a speedtest and lets you see and copy your IPs at a glance.
+
+QuickNetStats instead: 
+- Reacts **immediately** when the connections is established or lost;
+- Displays an estimate of the **link quality** without a speedtest;
+- Lets you see and copy your IP addresses at a glance.
 
 ## 📦 Installation (Homebrew)
 You can install this easily as a cask using  **Homebrew**.
@@ -61,6 +65,12 @@ Further details are displayes in the main view if you are using Low Data Mode or
 In the settings page you can show less informations in the menu bar, disable the animations and decide if you rather use colors or a monochromatic look
 
 ![Settings](https://github.com/user-attachments/assets/b66fbfc3-588e-41cc-940b-a7131063d548)
+
+## 🛠️ Contributing
+Contributions are welcome! To contribute:
+- Fork the repository and create your branch;
+- Make your changes with clear commit messages;
+- Open a pull request describing your changes.
 
 ## Notes
 - The link quality is simply an rough estimate. A propper speedtest (e.g. `speedtest-cli`) will always be more accurate but it will take some time. This implementation wins on speed rather than accuracy.
