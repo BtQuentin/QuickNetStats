@@ -11,17 +11,27 @@ import SystemConfiguration
 
 class NetworkDetailsManager: ObservableObject {
     
+    /// The private IP of the machine
     @Published var privateIP: String?
+    
+    /// The public IP of this machine
     @Published var publicIP:String?
     
     init(){}
     
-    init(privateIP: String? = nil, publicIP: String? = nil) {
+    init(privateIP: String?, publicIP: String?) {
         self.privateIP = privateIP
         self.publicIP = publicIP
     }
     
+    /// Populates the published attrivbutes for public and private IP
     func getAddresses() async {
+        
+        //Delete the old values so the UI shows "computing"
+        self.publicIP = nil
+        self.privateIP = nil
+        
+        //Compute new values
         self.publicIP = await fetchPublicIpAddress()
         self.privateIP = getPrivateIPAddress()
     }

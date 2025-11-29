@@ -19,6 +19,7 @@ class NetworkStatsManager:ObservableObject {
     /// Status of the connection where True means connected and able to send data and False means disconnected
     @Published var netStats: NetworkStats
     
+    /// Tracks if the monitor is monitoring to avoid multiple monitoring sessions
     private var isMonitoring:Bool
     
     init() {

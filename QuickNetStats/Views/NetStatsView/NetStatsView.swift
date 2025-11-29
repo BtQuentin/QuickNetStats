@@ -8,41 +8,30 @@
 import SwiftUI
 import AppKit
 
-struct ContentView: View {
+struct NetStatsView: View {
     
-    var netStats:NetworkStats
-    var privateIP:String?
-    var publicIP:String?
     @EnvironmentObject var settings:Settings
     
-    var linkQualityColor: Color {
-        switch netStats.linkQuality {
-        case .good:
-            return Color.green
-        case .moderate:
-            return Color.orange
-        case .minimal:
-            return Color.red
-        default:
-            return Color.secondary
-        }
-    }
+    var vm:NetStatsViewModel
     
+    init(netStats:NetworkStats, privateIP:String?, publicIP:String?) {
+        self.vm = NetStatsViewModel(netStats: netStats, privateIP: privateIP, publicIP: publicIP)
+    }
         
     var body: some View {
         VStack(spacing: 16) {
             HStack (alignment: .center, spacing: 40){
                 NetworkInterfaceView(
-                    netIntervaceType: netStats.interfaceType,
-                    isAvailable: netStats.isConnected,
-                    linkQualityColor: settings.isColorful ? linkQualityColor : .primary
+                    netIntervaceType: vm.netStats.interfaceType,
+                    isAvailable: vm.netStats.isConnected,
+                    linkQualityColor: settings.isColorful ? vm.linkQualityColor : .primary
                 )
                 .frame(height: 80)
                 
-                if let linkQuality = netStats.linkQuality {
+                if let linkQuality = vm.netStats.linkQuality {
                     LinkQualityView(
                         linkQuality: linkQuality,
-                        linkQualityColor: settings.isColorful ? linkQualityColor : .primary
+                        linkQualityColor: settings.isColorful ? vm.linkQualityColor : .primary
                     )
                 }
             }
@@ -57,15 +46,15 @@ struct ContentView: View {
     
     var exceptionDescriptionSection: some View {
         return Group {
-            if netStats.isExpensive || netStats.isConstrained {
+            if vm.netStats.isExpensive || vm.netStats.isConstrained {
                 Divider()
                 
-                if netStats.isExpensive {
+                if vm.netStats.isExpensive {
                     Text("You are connected to a cellular connection which may have a network cap.")
                         .foregroundStyle(.secondary)
                 }
                 
-                if netStats.isConstrained {
+                if vm.netStats.isConstrained {
                     Text("Low Data Mode is anabled for this network.")
                         .foregroundStyle(.secondary)
                 }
@@ -76,20 +65,20 @@ struct ContentView: View {
     var ipButtonsSection: some View {
         HStack(spacing: 16) {
             Button {
-                if let publicIP = publicIP {
-                    copyToClipboard(publicIP)
+                if let publicIP = vm.publicIP {
+                    vm.copyToClipboard(publicIP)
                 }
             } label: {
-                AddressView(title: "Public IP", value: publicIP ?? "Unavailbable")
+                AddressView(title: "Public IP", value: vm.publicIP ?? "Unavailbable")
             }
             .help("Click to copy to Clipboard")
             
             Button {
-                if let privateIP = privateIP {
-                    copyToClipboard(privateIP)
+                if let privateIP = vm.privateIP {
+                    vm.copyToClipboard(privateIP)
                 }
             } label: {
-                AddressView(title: "Private IP", value: privateIP ?? "Unavailbable")
+                AddressView(title: "Private IP", value: vm.privateIP ?? "Unavailbable")
             }
             .help("Click to copy to Clipboard")
         }
@@ -98,14 +87,10 @@ struct ContentView: View {
     }
 }
 
-func copyToClipboard(_ str :String) {
-    let pasteboard = NSPasteboard.general
-    pasteboard.clearContents()
-    pasteboard.setString(str, forType: .string)
-}
+//MARK - Previews
 
 #Preview("Good Connection") {
-    ContentView(
+    NetStatsView(
         netStats: NetworkStats.mockGoodWifiCoonection,
         privateIP: "10.0.0.32",
         publicIP: "100.10.30.2"
@@ -116,7 +101,7 @@ func copyToClipboard(_ str :String) {
 }
 
 #Preview("Moderate Connection") {
-    ContentView(
+    NetStatsView(
         netStats: NetworkStats.mockModerateWifiCoonection,
         privateIP: "10.0.0.32",
         publicIP: "100.10.30.2"
@@ -127,7 +112,7 @@ func copyToClipboard(_ str :String) {
 }
 
 #Preview("Bad Connection") {
-    ContentView(
+    NetStatsView(
         netStats: NetworkStats.mockBadWifiCoonection,
         privateIP: "10.0.0.32",
         publicIP: "100.10.30.2"
@@ -138,7 +123,7 @@ func copyToClipboard(_ str :String) {
 }
 
 #Preview("Good Eth Connection") {
-    ContentView(
+    NetStatsView(
         netStats: NetworkStats.mockGoodEthCoonection,
         privateIP: "10.0.0.32",
         publicIP: "100.10.30.2"
@@ -149,7 +134,7 @@ func copyToClipboard(_ str :String) {
 }
 
 #Preview("Constrained") {
-    ContentView(
+    NetStatsView(
         netStats: NetworkStats.mockConstrainedWifiCoonection,
         privateIP: "10.0.0.32",
         publicIP: "100.10.30.2"
@@ -160,7 +145,7 @@ func copyToClipboard(_ str :String) {
 }
 
 #Preview("Constriied + Expansive") {
-    ContentView(
+    NetStatsView(
         netStats: NetworkStats.mockConstrainedAndExpansiveCellCoonection,
         privateIP: "10.0.0.32",
         publicIP: "100.10.30.2"
@@ -172,7 +157,7 @@ func copyToClipboard(_ str :String) {
 
 
 #Preview("Disconnected") {
-    ContentView(
+    NetStatsView(
         netStats: NetworkStats.mockDisconnected,
         privateIP: nil,
         publicIP: nil
@@ -184,7 +169,7 @@ func copyToClipboard(_ str :String) {
 
 #Preview("QuickNetStats") {
     VStack {
-        ContentView(
+        NetStatsView(
             netStats: NetworkStats.mockGoodWifiCoonection,
             privateIP: "10.0.0.32",
             publicIP: "100.10.30.2"
@@ -193,7 +178,7 @@ func copyToClipboard(_ str :String) {
         .frame(width: 550)
         .environmentObject(Settings())
         
-        ContentView(
+        NetStatsView(
             netStats: NetworkStats.mockModerateWifiCoonection,
             privateIP: "10.0.0.32",
             publicIP: "100.10.30.2"
@@ -202,7 +187,7 @@ func copyToClipboard(_ str :String) {
         .frame(width: 550)
         .environmentObject(Settings())
         
-        ContentView(
+        NetStatsView(
             netStats: NetworkStats.mockBadWifiCoonection,
             privateIP: "10.0.0.32",
             publicIP: "100.10.30.2"
@@ -216,7 +201,7 @@ func copyToClipboard(_ str :String) {
 
 #Preview("Constrained or Expansive Connections") {
     HStack(spacing: 100) {
-        ContentView(
+        NetStatsView(
             netStats: NetworkStats.mockConstrainedWifiCoonection,
             privateIP: "10.0.0.32",
             publicIP: "100.10.30.2"
@@ -225,7 +210,7 @@ func copyToClipboard(_ str :String) {
         .frame(width: 550)
         .environmentObject(Settings())
         
-        ContentView(
+        NetStatsView(
             netStats: NetworkStats.mockExpansiveCellCoonection,
             privateIP: "10.0.0.32",
             publicIP: "100.10.30.2"

@@ -10,7 +10,6 @@ import SwiftUI
 struct SettingsView: View {
     
     @StateObject var vm: SettingsViewModel
-    
     @EnvironmentObject var settings:Settings
     
     
