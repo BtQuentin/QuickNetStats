@@ -12,7 +12,7 @@ MacOS is **slow** at realizing you are not connected anymore to the internet and
 QuickNetStats instead: 
 - Reacts **immediately** when the connections is established or lost;
 - Displays an estimate of the **link quality** without a speedtest;
-- Lets you see and copy your IP addresses at a glance.
+- Lets you see and copy your IPV4 addresses at a glance.
 
 ## 📦 Installation (Homebrew)
 You can install this easily as a cask using  **Homebrew**.
@@ -51,7 +51,7 @@ Either Good, Moderate or Minimal. The last case in the image below shows the mon
 
 ![Link Quality](https://github.com/user-attachments/assets/3e5480de-425c-407d-91d9-6cf406a8bb38)
 
-#### 3. Your current IP addresses
+#### 3. Your current IPV4 addresses
 Where clicking either one will copy the address to the clipboard.
 
 ![Addresses](https://github.com/user-attachments/assets/94590d63-04eb-40ef-bc24-54be5f2eedb2)
@@ -71,6 +71,9 @@ Contributions are welcome! To contribute:
 - Fork the repository and create your branch;
 - Make your changes with clear commit messages;
 - Open a pull request describing your changes.
+
+## Acknowledgments
+- The public IPV4 address is obtained thanks to [ipify API](https://www.ipify.org)
 
 ## Notes
 - The link quality is simply an rough estimate. A propper speedtest (e.g. `speedtest-cli`) will always be more accurate but it will take some time. This implementation wins on speed rather than accuracy.
