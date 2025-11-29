@@ -16,7 +16,7 @@ struct AddressView: View {
         
         RoundedRectangle(cornerRadius: 16)
             .fill(
-                Material.thick
+                Color.secondary.opacity(0.3)
             )
             .overlay(
                 HStack(spacing: 2){

@@ -71,4 +71,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView(netStatsManager: NetworkStatsManager(), netDetailsManager: NetworkDetailsManager())
+        .environmentObject(Settings())
 }

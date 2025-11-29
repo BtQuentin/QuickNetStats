@@ -36,7 +36,7 @@ struct LinkQualityView: View {
                     ForEach(0..<3, id: \.self) { _ in
                         Circle()
                             .frame(width: circleDim, height: circleDim)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.gray.opacity(0.5))
                     }
                 }
                 HStack{
@@ -51,7 +51,7 @@ struct LinkQualityView: View {
             
             Text("Link Quality")
                 .fontWeight(.semibold)
-                .foregroundColor(.secondary)
+                .foregroundColor(.gray)
             
             Group {
                 if linkQuality != .unknown {
@@ -63,6 +63,8 @@ struct LinkQualityView: View {
                 }
             }
             .foregroundStyle(linkQualityColor)
+            .fontWeight(.bold)
+            .font(.title3)
             
         }
         .frame(width: 80, height: 80)
@@ -75,7 +77,7 @@ struct LinkQualityView: View {
         LinkQualityView(linkQuality: .good, linkQualityColor: .green)
         LinkQualityView(linkQuality: .moderate, linkQualityColor: .orange)
         LinkQualityView(linkQuality: .minimal, linkQualityColor: .red)
-        LinkQualityView(linkQuality: .unknown, linkQualityColor: .secondary)
+        LinkQualityView(linkQuality: .unknown, linkQualityColor: .gray)
         
         LinkQualityView(linkQuality: .moderate, linkQualityColor: .primary)
 

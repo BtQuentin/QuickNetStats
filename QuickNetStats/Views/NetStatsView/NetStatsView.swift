@@ -24,14 +24,14 @@ struct NetStatsView: View {
                 NetworkInterfaceView(
                     netIntervaceType: vm.netStats.interfaceType,
                     isAvailable: vm.netStats.isConnected,
-                    linkQualityColor: settings.isColorful ? vm.linkQualityColor : .primary
+                    linkQualityColor: settings.isColorful ? vm.linkQualityColor : vm.isDarkModeEnabled ? .secondary : .black
                 )
                 .frame(height: 80)
                 
                 if let linkQuality = vm.netStats.linkQuality {
                     LinkQualityView(
                         linkQuality: linkQuality,
-                        linkQualityColor: settings.isColorful ? vm.linkQualityColor : .primary
+                        linkQualityColor: settings.isColorful ? vm.linkQualityColor : vm.isDarkModeEnabled ? .secondary : .black
                     )
                 }
             }

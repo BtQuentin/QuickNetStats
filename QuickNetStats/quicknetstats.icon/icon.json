@@ -1,0 +1,97 @@
+{
+  "fill-specializations" : [
+    {
+      "value" : {
+        "linear-gradient" : [
+          "srgb:0.85751,0.82293,0.65725,1.00000",
+          "srgb:0.42177,0.44179,0.75000,1.00000"
+        ],
+        "orientation" : {
+          "start" : {
+            "x" : 0.5,
+            "y" : 0
+          },
+          "stop" : {
+            "x" : 0.5,
+            "y" : 0.7
+          }
+        }
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "linear-gradient" : [
+          "srgb:0.69050,0.66483,0.53342,1.00000",
+          "srgb:0.29059,0.30339,0.52041,1.00000"
+        ],
+        "orientation" : {
+          "start" : {
+            "x" : 0.5,
+            "y" : 0
+          },
+          "stop" : {
+            "x" : 0.5,
+            "y" : 0.7
+          }
+        }
+      }
+    }
+  ],
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "fill" : "none",
+          "glass" : true,
+          "image-name" : "1 – Wifi.svg",
+          "name" : "1 – Wifi",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              225.00000000000006
+            ]
+          }
+        },
+        {
+          "image-name" : "2 – Hotspot.svg",
+          "name" : "2 – Hotspot",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              450,
+              -205
+            ]
+          }
+        },
+        {
+          "image-name" : "3 – Network.svg",
+          "name" : "3 – Network",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              -203
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

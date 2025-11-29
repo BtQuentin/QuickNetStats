@@ -13,10 +13,16 @@ class NetStatsViewModel {
     var privateIP:String?
     var publicIP:String?
     
+    @Environment(\.colorScheme) var colorScheme
+    
     init(netStats: NetworkStats, privateIP: String?, publicIP: String?) {
         self.netStats = netStats
         self.privateIP = privateIP
         self.publicIP = publicIP
+    }
+    
+    var isDarkModeEnabled: Bool {
+        colorScheme == .dark
     }
 
     var linkQualityColor: Color {
