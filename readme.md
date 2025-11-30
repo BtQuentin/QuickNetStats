@@ -2,7 +2,7 @@
 
 Essential network statistics directly in the Menu Bar
 
-<img src='Assets/main.png' width='100%' alt='main'>
+<img src='Assets/main_dark.jpeg' width='100%' alt='main_dark'>
 
 > [!IMPORTANT]
 > The app is compatible down to macOS 13 (Ventura) but the network quality information uses an API available from macOS 26 (Tahoe) onwards.
