@@ -36,7 +36,7 @@ struct ContentView: View {
             Button {
                 Task {
                     netStatsManager.refresh()
-                    await netDetailsManager.getAddresses()
+                    await netDetailsManager.deleteAndGetAddresses()
                 }
             } label: {
                 FooterButtonLabelView(labelText: "Refresh", systemName: "arrow.trianglehead.counterclockwise")
