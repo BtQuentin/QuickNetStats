@@ -32,13 +32,7 @@ struct ContentView: View {
     }
     
     var footerButtonsSection: some View {
-        return HStack(spacing: 40) {
-            Button {
-                exit(0)
-            } label: {
-                FooterButtonLabelView(labelText: "Quit", systemName: "power")
-            }
-            
+        return HStack(spacing: 40) {            
             Button {
                 Task {
                     netStatsManager.refresh()
