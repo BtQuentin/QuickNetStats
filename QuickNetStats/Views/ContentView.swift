@@ -14,39 +14,25 @@ struct ContentView: View {
     
     @EnvironmentObject var settings:Settings
     
-    @State var isSettingViewOpened: Bool = false
+    @Environment(\.openWindow) var openWindow
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 16){
-                NetStatsView(
-                    netStats: netStatsManager.netStats,
-                    privateIP: netDetailsManager.privateIP,
-                    publicIP: netDetailsManager.publicIP
-                )
-                
-                Divider()
-                
-                footerButtonsSection
-            }
-            .blur(radius: isSettingViewOpened ? 3 : 0)
-            .disabled(isSettingViewOpened)
+        VStack(spacing: 16){
+            NetStatsView(
+                netStats: netStatsManager.netStats,
+                privateIP: netDetailsManager.privateIP,
+                publicIP: netDetailsManager.publicIP
+            )
             
-            SettingsView(isSettingViewOpened: $isSettingViewOpened)
-                .animation(settings.useAnimations ? .bouncy(duration:0.4) : .none, value: isSettingViewOpened)
-                .offset(y: isSettingViewOpened ? 0 : 500)
-                .environmentObject(settings)
+            Divider()
+            
+            footerButtonsSection
         }
+        
     }
     
     var footerButtonsSection: some View {
-        return HStack(spacing: 40) {
-            Button {
-                exit(0)
-            } label: {
-                FooterButtonLabelView(labelText: "Quit", systemName: "power")
-            }
-            
+        return HStack(spacing: 40) {            
             Button {
                 Task {
                     netStatsManager.refresh()
@@ -57,7 +43,7 @@ struct ContentView: View {
             }
             
             Button {
-                self.isSettingViewOpened = true
+                openWindow(id: "settings-window")
             } label: {
                 FooterButtonLabelView(labelText: "Settings", systemName: "gear")
             }
