@@ -51,6 +51,15 @@ struct SettingsView: View {
                 .padding(8)
             }
         }
+        .onAppear {
+            // Show the app icon in the dock and bring the settings to the foreground
+            NSApp.setActivationPolicy(.regular)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+        .onDisappear {
+            // Hide the app icon from the dock
+            NSApp.setActivationPolicy(.accessory)
+        }
         
     }
     
