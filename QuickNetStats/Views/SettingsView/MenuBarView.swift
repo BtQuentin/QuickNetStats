@@ -14,7 +14,8 @@ struct MenuBarView: View {
     var body: some View {
         Form {
             Section {
-                ToggleView(title: "Show Summary", variable: settings.$showSummary, description: "Display a summary of the connection or just an icon")
+                ToggleView(title: "Show Summary", variable: settings.$showSummaryInMenu, description: "Display a summary of the connection or just an icon")
+                ToggleView(title: "Show Network quality", variable: settings.$showQualityInMenu, description: "Display a description of the network quality or not")
             } header: {
                 Text("Menu Bar Style")
             }
