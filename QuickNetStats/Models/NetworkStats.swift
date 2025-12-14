@@ -32,6 +32,9 @@ struct NetworkStats {
     /// The primary interface type (e.g., Wi-Fi, Cellular).
     let interfaceType: NetworkInterfaceType
     
+    /// The technology underlying the connection (Allows to distinguish between wired and wireless cellular).
+    let connectionTechnology:NWInterface.InterfaceType
+    
     /// True if the network is considered "expensive" (e.g., cellular data cap).
     let isExpensive: Bool
     
@@ -57,16 +60,17 @@ struct NetworkStats {
             return "No Connection"
         }
         
+        // Only show the quality for macOS 26+
         var quality = ""
         if #available(macOS 26, *) {
             if let linkQuality = linkQuality {
                 if linkQuality != .unknown {
-                    quality = "\(linkQuality.rawValue.capitalized) "
+                    quality = "\(linkQuality.rawValue.capitalized)"
                 }
             }
         }
         
-        return "\(quality)Connection to \(interfaceType.rawValue.capitalized)"
+        return "\(quality) \(interfaceType.rawValue.capitalized) Connection"
     }
     
     // MARK: - Initializers
@@ -78,28 +82,45 @@ struct NetworkStats {
         self.status = path.status
         self.isExpensive = path.isExpensive
         self.isConstrained = path.isConstrained
-        
+                
         if path.status == .unsatisfied {
-            
-            if #available(iOS 14.2, *) {
-                self.unsatisfiedReason = path.unsatisfiedReason
-            } else {
-                self.unsatisfiedReason = .notAvailable // Best guess for older OS
-            }
+            self.unsatisfiedReason = path.unsatisfiedReason
         } else {
             self.unsatisfiedReason = nil
         }
         
         if path.usesInterfaceType(.wifi) {
-            self.interfaceType = .wifi
+            
+            // The technology is Wifi: this is a wireless network
+            self.connectionTechnology = .wifi
+            
+            // A wireless connection to an hotspot still registers as WiFi
+            // Set it to cellular for greater clarity
+            self.interfaceType = path.isExpensive ? .cellular : .wifi
+            
         } else if path.usesInterfaceType(.cellular) {
+            self.connectionTechnology = .cellular
             self.interfaceType = .cellular
+            
         } else if path.usesInterfaceType(.wiredEthernet) {
-            self.interfaceType = .ethernet
+            
+            // The technology is Ethernet: this is a wired network
+            self.connectionTechnology = .wiredEthernet
+            
+            // A wired connection to an hotspot still registers as Ethernet
+            // Set it to cellular for greater clarity
+            self.interfaceType = path.isExpensive ? .cellular : .ethernet
+            
         } else if path.status == .satisfied {
-            self.interfaceType = .other // Connected, but not a known type
+            
+            // Connected, but not a known type
+            self.connectionTechnology = .other
+            self.interfaceType = .other
+            
         } else {
-            self.interfaceType = .none // Not connected
+            // Not connected
+            self.connectionTechnology = .other
+            self.interfaceType = .none
         }
         
         
@@ -118,12 +139,15 @@ struct NetworkStats {
         
     }
     
+    // Use this for mockups and static defaults
     private init(status: NWPath.Status,
                  interfaceType: NetworkInterfaceType,
                  isExpensive: Bool,
                  isConstrained: Bool,
                  reason: NWPath.UnsatisfiedReason?,
-                 linkQuality:LinkQuality) {
+                 linkQuality:LinkQuality,
+                 connectionTechnology:NWInterface.InterfaceType
+    ) {
         
         self.status = status
         self.interfaceType = interfaceType
@@ -131,6 +155,7 @@ struct NetworkStats {
         self.isConstrained = isConstrained
         self.unsatisfiedReason = reason
         self.linkQuality = linkQuality
+        self.connectionTechnology = connectionTechnology
     }
     
     // MARK: - Static Default
@@ -146,7 +171,8 @@ struct NetworkStats {
             isExpensive: false,
             isConstrained: false,
             reason: .notAvailable,
-            linkQuality: .unknown
+            linkQuality: .unknown,
+            connectionTechnology: .other
         )
     }
     
@@ -158,7 +184,8 @@ struct NetworkStats {
             isExpensive: false,
             isConstrained: false,
             reason: .none,
-            linkQuality: .good
+            linkQuality: .good,
+            connectionTechnology: .wifi
         )
     }
     
@@ -169,7 +196,8 @@ struct NetworkStats {
             isExpensive: false,
             isConstrained: false,
             reason: .none,
-            linkQuality: .moderate
+            linkQuality: .moderate,
+            connectionTechnology: .wifi
         )
     }
     
@@ -180,7 +208,8 @@ struct NetworkStats {
             isExpensive: false,
             isConstrained: false,
             reason: .none,
-            linkQuality: .minimal
+            linkQuality: .minimal,
+            connectionTechnology: .wifi
         )
     }
     
@@ -191,7 +220,8 @@ struct NetworkStats {
             isExpensive: false,
             isConstrained: false,
             reason: .none,
-            linkQuality: .good
+            linkQuality: .good,
+            connectionTechnology: .wiredEthernet
         )
     }
     
@@ -202,7 +232,8 @@ struct NetworkStats {
             isExpensive: false,
             isConstrained: true,
             reason: .none,
-            linkQuality: .good
+            linkQuality: .good,
+            connectionTechnology: .wifi
         )
     }
     
@@ -213,7 +244,8 @@ struct NetworkStats {
             isExpensive: true,
             isConstrained: true,
             reason: .none,
-            linkQuality: .good
+            linkQuality: .good,
+            connectionTechnology: .wifi
         )
     }
     
@@ -224,7 +256,8 @@ struct NetworkStats {
             isExpensive: true,
             isConstrained: false,
             reason: .none,
-            linkQuality: .good
+            linkQuality: .good,
+            connectionTechnology: .wiredEthernet
         )
     }
     
@@ -235,7 +268,8 @@ struct NetworkStats {
             isExpensive: false,
             isConstrained: false,
             reason: .notAvailable,
-            linkQuality: .unknown
+            linkQuality: .unknown,
+            connectionTechnology: .other
         )
     }
 
