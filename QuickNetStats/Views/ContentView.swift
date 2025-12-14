@@ -51,6 +51,7 @@ struct ContentView: View {
         }
         .buttonStyle(.plain)
         .focusable(false)
+        .padding(.top)
     }
 
 }
@@ -58,4 +59,5 @@ struct ContentView: View {
 #Preview {
     ContentView(netStatsManager: NetworkStatsManager(), netDetailsManager: NetworkDetailsManager())
         .environmentObject(Settings())
+        .frame(height: 350)
 }

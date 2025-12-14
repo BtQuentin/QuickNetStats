@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import Network
 
 struct NetStatsView: View {
     
@@ -50,16 +51,21 @@ struct NetStatsView: View {
                 Divider()
                 
                 if vm.netStats.isExpensive {
-                    Text("You are connected to a cellular connection which may have a network cap.")
-                        .foregroundStyle(.secondary)
+                    Text("Your cellular connection may have a **network cap**.")
+                    
+                    if vm.netStats.connectionTechnology == .wifi {
+                        Text("**Wireless** connection to the hotspot.")
+                    } else {
+                        Text("**Wired** connection to the hotspot.")
+                    }
                 }
                 
                 if vm.netStats.isConstrained {
-                    Text("Low Data Mode is anabled for this network.")
-                        .foregroundStyle(.secondary)
+                    Text("**Low Data Mode** is enabled for this network.")
                 }
             }
         }
+        .foregroundStyle(.secondary)
     }
         
     var ipButtonsSection: some View {
@@ -69,7 +75,7 @@ struct NetStatsView: View {
                     vm.copyToClipboard(publicIP)
                 }
             } label: {
-                AddressView(title: "Public IP", value: vm.publicIP ?? "Unavailbable")
+                AddressView(title: "Public IP", value: vm.publicIP ?? "Unavailable")
             }
             .help("Click to copy to Clipboard")
             
@@ -78,7 +84,7 @@ struct NetStatsView: View {
                     vm.copyToClipboard(privateIP)
                 }
             } label: {
-                AddressView(title: "Private IP", value: vm.privateIP ?? "Unavailbable")
+                AddressView(title: "Private IP", value: vm.privateIP ?? "Unavailable")
             }
             .help("Click to copy to Clipboard")
         }
