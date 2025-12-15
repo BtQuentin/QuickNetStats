@@ -68,12 +68,12 @@ struct NetworkStats {
         if #available(macOS 26, *) {
             if let linkQuality = linkQuality {
                 if linkQuality != .unknown {
-                    quality = "\(linkQuality.rawValue.capitalized)"
+                    quality = "\(linkQuality.rawValue.capitalized) "
                 }
             }
         }
         
-        return "\(quality) \(interfaceType.rawValue.capitalized) Connection"
+        return "\(quality)\(interfaceType.rawValue.capitalized) Connection"
     }
     
     // MARK: - Initializers

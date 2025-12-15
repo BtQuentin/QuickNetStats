@@ -29,9 +29,7 @@ struct QuickNetStatsApp: App {
             
         }, label: {
             if settings.showSummaryInMenu {
-                Text(
-                    "\(settings.showQualityInMenu ? netStatsManager.netStats.linkQualityDescription?.appending(" ") ?? "" : "")\(netStatsManager.netStats.summary)"
-                )
+                Text(netStatsManager.netStats.summary)
             } else {
                 Image(systemName: "network")
             }
