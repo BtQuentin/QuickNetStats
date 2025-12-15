@@ -2,6 +2,18 @@
 
 Essential network statistics directly in the Menu Bar
 
+<p align="center">
+  <a href="https://github.com/FI-153/QuickNetStats/stargazers">
+    <img src="https://img.shields.io/github/stars/FI-153/QuickNetStats?style=social" alt="GitHub stars"/>
+  </a>
+  <a href="https://github.com/FI-153/QuickNetStats/network/members">
+    <img src="https://img.shields.io/github/forks/FI-153/QuickNetStats?style=social" alt="GitHub forks"/>
+  </a>
+  <a href="https://github.com/FI-153/QuickNetStats/releases">
+    <img src="https://img.shields.io/github/downloads/FI-153/QuickNetStats/total?label=Downloads" alt="GitHub downloads"/>
+  </a>
+</p>
+
 <img src='Assets/main_dark.jpeg' width='100%' alt='main_dark'>
 
 > [!IMPORTANT]
