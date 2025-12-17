@@ -46,6 +46,11 @@ class UpdateManager:ObservableObject {
         return currentVersion
     }
     
+    /// Determine if the managet can do a new request (i.e. if 2 minutes have passed since the last successful fetch
+    func isCoolingDown() -> Bool {
+        return Date() < lastCheck.addingTimeInterval(60*cooldownTime)
+    }
+    
     /// Call the GitHub public API to fetch the latest release of the app, then retrieve the version number, update
     /// it and check if there is a newer version than the one installed.
     ///
@@ -53,7 +58,7 @@ class UpdateManager:ObservableObject {
     func checkForUpdates() async {
     
         // Allow to check for updates only once every 2 minutes to prevent suprassing GitHub's limit
-        if Date() < lastCheck.addingTimeInterval(60*cooldownTime) {
+        if self.isCoolingDown() {
             print("Cannot update more than once every \(self.cooldownTime) minute\(self.cooldownTime > 1 ? "s" : "")")
             return
         }
@@ -95,9 +100,9 @@ class UpdateManager:ObservableObject {
 
 import Playgrounds
 #Playground {
-    var um:UpdateManager = UpdateManager.shared
+    var um = UpdateManager.shared
     let currentVersion = um.getCurrentVersion()
-//    await um.shared.checkForUpdates()
+//    await um.checkForUpdates()
 //    um.latestVersion
 //    um.isUpdateAvailable
 }
