@@ -2,7 +2,7 @@
 
 Essential network statistics directly in the Menu Bar
 
-<img src='Assets/main.webp' width='30%' alt='main'>
+<img src='Assets/main.webp' width='100%' alt='main'>
 
 > [!IMPORTANT]
 > The app is compatible down to macOS 13 (Ventura) but the network quality information uses an API available from macOS 26 (Tahoe) onwards.
@@ -65,7 +65,7 @@ Further details are displayes in the main view if you are using Low Data Mode or
 ### Settings
 In the settings page you can customize the app's look, its behavior, what is displayed in the Menu Bar and more
 
-<img src='Assets/settings-menu-bar.webp' width='50%' alt='settings'>
+<img src='Assets/settings-menu-bar.webp' width='100%' alt='settings'>
 
 ## 🛠️ Contributing
 Contributions are welcome! To contribute:
